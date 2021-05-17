@@ -55,15 +55,10 @@ const Search: FC = () => {
                 {temp.map(value => (
                     <li key={value[0]} className={`search__group ${value[1].length === 0 ? 'search__group--disabled' : 'search__group--active'}`}>
                         <ul>
-                            <div className="search__group__name" onClick={() => updateHiddenState(value[0])}>
+                            <div className="search__groupName" onClick={() => updateHiddenState(value[0])}>
                                 {`${value[0] + 9 * (value[0] - 1)}-${value[0] * 10}`}
                             </div>
                             {isHiddenState[value[0]] ? renderUsers(value[1]) : null}
-                            {/*{value[1].map(user => (*/}
-                            {/*    <li key={user.id.value} className='search__user'>*/}
-                            {/*        {`${user.name.first} ${user.name.last}`}*/}
-                            {/*    </li>*/}
-                            {/*))}*/}
                         </ul>
                     </li>
                 ))}
