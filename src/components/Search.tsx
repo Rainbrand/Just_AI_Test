@@ -40,13 +40,13 @@ const Search: FC = () => {
     //     )
     // }
     //
-    // const renderUsers = (value) => {
-    //     return (value[1].map(user => (
-    //         <li key={user.id.value} className='search__user'>
-    //             {`${user.name.first} ${user.name.last}`}
-    //         </li>
-    //     )))
-    // }
+    const renderUsers = (users: IUser[]) => {
+        return (users.map(user => (
+            <li key={user.id.value} className='search__user'>
+                {`${user.name.first} ${user.name.last}`}
+            </li>
+        )))
+    }
 
     return (
         <div className="search" >
@@ -58,10 +58,7 @@ const Search: FC = () => {
                             <div className="search__group__name" onClick={() => updateHiddenState(value[0])}>
                                 {`${value[0] + 9 * (value[0] - 1)}-${value[0] * 10}`}
                             </div>
-                            {isHiddenState[value[0]] ? value[1].map(user => (
-                                <li key={user.id.value} className='search__user'>
-                                    {`${user.name.first} ${user.name.last}`}
-                                </li>)) : null}
+                            {isHiddenState[value[0]] ? renderUsers(value[1]) : null}
                             {/*{value[1].map(user => (*/}
                             {/*    <li key={user.id.value} className='search__user'>*/}
                             {/*        {`${user.name.first} ${user.name.last}`}*/}
