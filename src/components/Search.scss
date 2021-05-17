@@ -8,6 +8,7 @@
   &__input{
     width: 100%;
     max-height: 1rem;
+    cursor: text;
 
     &:empty:not(:focus):before{
       content: "Search...";
@@ -26,7 +27,11 @@
     }
   }
 
-  &__list{
-    list-style: none;
+  &__group{
+
+    &__name{
+      cursor: pointer;
+    }
+
   }
 }
