@@ -2,11 +2,13 @@ import React, {FC, useContext, useEffect, useState} from 'react';
 import {UsersContext} from "./UserDataProvider"
 import {IUser} from "../types/types";
 import "./Search.scss"
+import HighlightedText from './HighlightedText';
 
 const Search: FC = () => {
     const groupedUsersList: Array<IUser[]> = useContext(UsersContext)
     const [filteredUsersList, setFilteredUsersList] = useState<Array<IUser[]>>(JSON.parse(JSON.stringify(groupedUsersList)))
     const [isHiddenState, setHiddenState] = useState<Array<boolean>>([] as Array<boolean>);
+    const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
         setHiddenState(initIsHiddenState)
@@ -34,7 +36,7 @@ const Search: FC = () => {
         const filteredUsers: Array<IUser[]> = []
         for (const filteredUser of groupedUsersList) {
             filteredUsers.push(filteredUser.filter((user: IUser) => {
-                return user.name.first.startsWith(input) || user.name.last.startsWith(input)
+                return user.name.first.includes(input) || user.name.last.includes(input)
             }))
         }
         setFilteredUsersList(filteredUsers)
@@ -43,7 +45,7 @@ const Search: FC = () => {
     const renderUsers = (users: IUser[]) => {
         return (users.map(user => (
             <li key={user.id.value} className='search__userElement' draggable>
-                {`${user.name.first} ${user.name.last}`}
+                <HighlightedText text={`${user.name.first} ${user.name.last}`} highlight={searchInput}/>
             </li>
         )))
     }
@@ -68,6 +70,7 @@ const Search: FC = () => {
             <span className="search__input" contentEditable="true" onInput={(e : React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
                 const target = e.target as HTMLTextAreaElement;
+                setSearchInput(() => target.innerText)
                 filterUsers(target.innerText)
             }}/>
             <ol className="search__groups">
