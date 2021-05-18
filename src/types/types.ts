@@ -38,3 +38,8 @@ export interface IFetch {
     results: IUser[];
     info: Array<string>
 }
+
+export interface IHighlightedTextProps {
+    text: string,
+    highlight: string
+}
