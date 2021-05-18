@@ -27,11 +27,28 @@
     }
   }
 
+  &__groups{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
   &__group{
 
-    &__name{
+    &Name{
+      text-align: center;
       cursor: pointer;
     }
+  }
 
+  &__userList{
+
+    width: 100%;
+  }
+
+  &__userElement{
+    cursor: move;
+    cursor: grab;
   }
 }
