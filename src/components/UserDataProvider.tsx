@@ -4,11 +4,14 @@ import {IChildren, IFetch, IUser} from "../types/types";
 
 //const UsersContext = React.createContext<IUser[][]>([] as Array<Array<IUser>>)
 
- const UsersContext = React.createContext<Map<number, IUser[]>>({} as Map<number, IUser[]>)
+//const UsersContext = React.createContext<Map<number, IUser[]>>({} as Map<number, IUser[]>)
+
+const UsersContext = React.createContext<Array<IUser[]>>([] as Array<IUser[]>)
 
 const UserDataProvider: FC<IChildren> = (props) => {
-    const [markedUsers, setMarkedUsers] = useState<Map<number, IUser[]>>({} as Map<number, IUser[]>);
+    //const [markedUsers, setMarkedUsers] = useState<Map<number, IUser[]>>({} as Map<number, IUser[]>);
     //const [markedUsers2, setMarkedUsers2] = useState<IUser[][]>([] as Array<Array<IUser>>);
+    const [markedUsers, setMarkedUsers] = useState<Array<IUser[]>>([] as Array<IUser[]>);
 
     async function getUsers() {
         try {
@@ -35,7 +38,8 @@ const UserDataProvider: FC<IChildren> = (props) => {
                 groupedUsers.set(age, [...alreadyGrouped, user])
             }
         }
-        await setMarkedUsers(groupedUsers)
+        console.log(Array.from(groupedUsers.values()))
+        await setMarkedUsers(Array.from(groupedUsers.values()))
     }
 
     useEffect(() => {
