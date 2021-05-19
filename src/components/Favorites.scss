@@ -5,8 +5,17 @@
   align-items: center;
   flex-flow: column;
 
-  &__userList {
+  &__userListContainer {
     width: 100%;
     height: 150px
+  }
+
+  &__userCard{
+    display: flex;
+    align-items: center;
+  }
+
+  &__removeButton{
+    cursor: pointer;
   }
 }

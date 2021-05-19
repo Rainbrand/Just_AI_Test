@@ -2,6 +2,8 @@ import React, {FC, useState} from 'react';
 import { IUser } from '../types/types';
 import "./Favorites.scss"
 import UserCard from './UserCard';
+import { Zoom } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const Favorites: FC = () => {
     const [favoritedUserList, setFavoritedUserList] = useState<IUser[]>([] as IUser[]);
@@ -12,8 +14,8 @@ const Favorites: FC = () => {
     }
 
     const isAdded = (user: IUser) : boolean => {
-        if (favoritedUserList.findIndex((favoritedUser: IUser) => favoritedUser.id.value === user.id.value) != -1) return true;
-        else return false;
+        return favoritedUserList.findIndex((favoritedUser: IUser) => favoritedUser.id.value === user.id.value) != -1 ?
+            true : false;
     }
 
     const dropHandler = (e: React.DragEvent<HTMLDivElement>) => {
@@ -23,16 +25,24 @@ const Favorites: FC = () => {
         console.log("Drop")
     }
 
+    const removeFromFavorites = (user: IUser) => {
+        const filteredList = favoritedUserList.filter((filteredUser: IUser) => filteredUser.id.value !== user.id.value)
+        setFavoritedUserList(filteredList)
+    }
+
     return (
         <div className="favorites" >
             <span className="favorites__title">
                 Favorites
             </span>
-            <div className="favorites__userList" onDragOver={e => dragOverHandler(e)} onDrop={e => dropHandler(e)}>
-                <ul>{console.log(favoritedUserList)}{favoritedUserList.map((user: IUser) =>(
-                    <li>
-                        <UserCard user={user}/>
-                    </li>
+            <div className="favorites__userListContainer" onDragOver={e => dragOverHandler(e)} onDrop={e => dropHandler(e)}>
+                <ul className="favorites__userList">{favoritedUserList.map((user: IUser) =>(
+                    <Zoom in={true}>
+                        <li key={user.id.value} className="favorites__userCard">
+                            <UserCard user={user}/>
+                            <DeleteIcon className="favorites__removeButton" onClick={(e: React.MouseEvent) => {removeFromFavorites(user)} }/>
+                        </li>
+                    </Zoom>
                 ))}
                 </ul>
             </div>

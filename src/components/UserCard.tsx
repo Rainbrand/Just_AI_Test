@@ -18,7 +18,6 @@ const UserCard: FC<{user: IUser }> = ({user}) => {
                     {`${user.email}`}
                 </div>
             </div>
-            <div className="userCard__remove"/>
         </div>
     )
 }
