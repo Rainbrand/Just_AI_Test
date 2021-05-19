@@ -4,16 +4,22 @@ import "./Favorites.scss"
 import UserCard from './UserCard';
 
 const Favorites: FC = () => {
-    const [favoritedUserList, setFavoritedUserList] = useState([] as IUser[]);
+    const [favoritedUserList, setFavoritedUserList] = useState<IUser[]>([] as IUser[]);
 
     const dragOverHandler = (e: React.DragEvent) => {
         e.preventDefault();
         console.log("Dragover")
     }
 
+    const isAdded = (user: IUser) : boolean => {
+        if (favoritedUserList.findIndex((favoritedUser: IUser) => favoritedUser.id.value === user.id.value) != -1) return true;
+        else return false;
+    }
+
     const dropHandler = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setFavoritedUserList((prev: IUser[]) => [...prev, JSON.parse(e.dataTransfer.getData("text/plain"))])
+        const parsedUser: IUser = JSON.parse(e.dataTransfer.getData("text/plain"))
+        if (!isAdded(parsedUser)) setFavoritedUserList((prev: IUser[]) => [...prev, parsedUser])
         console.log("Drop")
     }
 
