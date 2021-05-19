@@ -3,12 +3,14 @@ import {UsersContext} from "./UserDataProvider"
 import {IUser} from "../types/types";
 import "./Search.scss"
 import HighlightedText from './HighlightedText';
+import { DragContext } from '../DragContext';
 
 const Search: FC = () => {
     const groupedUsersList: Array<IUser[]> = useContext(UsersContext)
     const [filteredUsersList, setFilteredUsersList] = useState<Array<IUser[]>>(JSON.parse(JSON.stringify(groupedUsersList)))
     const [isHiddenState, setHiddenState] = useState<Array<boolean>>([] as Array<boolean>);
     const [searchInput, setSearchInput] = useState("");
+    const setDraggedCard: React.Dispatch<React.SetStateAction<IUser>> = useContext(DragContext).setDraggedCard;
 
     useEffect(() => {
         setHiddenState(initIsHiddenState)
@@ -32,7 +34,7 @@ const Search: FC = () => {
     }
 
     const dragStartHandler = (e: React.DragEvent<HTMLLIElement>, user: IUser) => {
-        e.dataTransfer.setData("text/plain", JSON.stringify(user))
+        setDraggedCard(() => user)
     }
 
     const filterUsers = (input: string) => {

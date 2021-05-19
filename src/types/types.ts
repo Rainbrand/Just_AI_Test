@@ -34,6 +34,11 @@ export interface IUser {
     picture: IPicture;
 }
 
+export interface IOrderedUser {
+    user: IUser,
+    position: number
+}
+
 export interface IFetch {
     results: IUser[];
     info: Array<string>

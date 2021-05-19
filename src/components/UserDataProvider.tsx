@@ -2,20 +2,14 @@ import React, {FC, useEffect, useState} from 'react';
 import axios from "axios";
 import {IChildren, IFetch, IUser} from "../types/types";
 
-//const UsersContext = React.createContext<IUser[][]>([] as Array<Array<IUser>>)
-
-//const UsersContext = React.createContext<Map<number, IUser[]>>({} as Map<number, IUser[]>)
-
 const UsersContext = React.createContext<Array<IUser[]>>([] as Array<IUser[]>)
 
 const UserDataProvider: FC<IChildren> = (props) => {
-    //const [markedUsers, setMarkedUsers] = useState<Map<number, IUser[]>>({} as Map<number, IUser[]>);
-    //const [markedUsers2, setMarkedUsers2] = useState<IUser[][]>([] as Array<Array<IUser>>);
     const [markedUsers, setMarkedUsers] = useState<Array<IUser[]>>([] as Array<IUser[]>);
 
     async function getUsers() {
         try {
-            const users = await axios.get<IFetch>('https://randomuser.me/api/?results=10' +
+            const users = await axios.get<IFetch>('https://randomuser.me/api/?results=100' +
                 '&inc=name,email,registered,picture,id' +
                 '&nat=us,gb')
             await tagUsers(users.data.results)
