@@ -31,6 +31,10 @@ const Search: FC = () => {
         })
     }
 
+    const dragStartHandler = (e: React.DragEvent<HTMLLIElement>, user: IUser) => {
+        e.dataTransfer.setData("text/plain", JSON.stringify(user))
+    }
+
     const filterUsers = (input: string) => {
         if (input.length ===  0) setFilteredUsersList(JSON.parse(JSON.stringify(groupedUsersList)))
         const filteredUsers: Array<IUser[]> = []
@@ -44,7 +48,7 @@ const Search: FC = () => {
 
     const renderUsers = (users: IUser[]) => {
         return (users.map(user => (
-            <li key={user.id.value} className='search__userElement' draggable>
+            <li key={user.id.value} className='search__userElement' draggable onDragStart={e => dragStartHandler(e, user)}>
                 <HighlightedText text={`${user.name.first} ${user.name.last}`} highlight={searchInput}/>
             </li>
         )))
