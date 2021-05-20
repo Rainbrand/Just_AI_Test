@@ -19,7 +19,7 @@ const UserDataProvider: FC<IChildren> = (props) => {
      */
     async function getUsers() {
         try {
-            const users = await axios.get<IFetch>('https://randomuser.me/api/?results=500' +
+            const users = await axios.get<IFetch>('https://randomuser.me/api/?results=5000' +
                 '&inc=name,email,registered,picture,id' +
                 '&nat=us,gb')
             await tagUsers(users.data.results)
