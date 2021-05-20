@@ -1,11 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
 import axios from "axios";
 import {IChildren, IFetch, IUser} from "../types/types";
+import { CircularProgress } from '@material-ui/core';
 
 const UsersContext = React.createContext<Array<IUser[]>>([] as Array<IUser[]>)
 
 const UserDataProvider: FC<IChildren> = (props) => {
     const [markedUsers, setMarkedUsers] = useState<Array<IUser[]>>([] as Array<IUser[]>);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     async function getUsers() {
         try {
@@ -32,8 +34,8 @@ const UserDataProvider: FC<IChildren> = (props) => {
                 groupedUsers.set(age, [...alreadyGrouped, user])
             }
         }
-        console.log(Array.from(groupedUsers.values()))
-        await setMarkedUsers(Array.from(groupedUsers.values()))
+        setMarkedUsers(Array.from(groupedUsers.values()))
+        setIsLoaded(() => true)
     }
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const UserDataProvider: FC<IChildren> = (props) => {
     
     return (
         <UsersContext.Provider value={markedUsers}>
-            {props.children}
+            {isLoaded ? props.children : <CircularProgress className="loadSpinner"/>}
         </UsersContext.Provider>
     )
 }
