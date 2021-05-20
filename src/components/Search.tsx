@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useContext, useEffect, useMemo, useState} from 'react';
 import {UsersContext} from "./UserDataProvider"
 import {IUser} from "../types/types";
 import "./Search.scss"
@@ -16,6 +16,7 @@ const Search: FC = () => {
         setHiddenState(initIsHiddenState)
         setFilteredUsersList([...groupedUsersList])
     }, [groupedUsersList]);
+
 
     const initIsHiddenState = () => {
         const state = new Array<boolean>()
@@ -49,6 +50,8 @@ const Search: FC = () => {
     }
 
     const renderUsers = (users: IUser[]) => {
+        console.log("render users")
+
         return (users.map(user => (
             <li key={user.id.value} className='search__userElement' draggable onDragStart={e => dragStartHandler(e, user)}>
                 <HighlightedText text={`${user.name.first} ${user.name.last}`} highlight={searchInput}/>
@@ -57,11 +60,14 @@ const Search: FC = () => {
     }
 
     const renderGroups = (groupedUsers: Array<IUser[]>) => {
+        console.log("render groups")
         return (
             groupedUsers.map((users, groupID) => (
                 <li key={groupID} className={`search__group ${users.length === 0 ? 'search__group--disabled' : 'search__group--active'}`}>
                     <ul className="search__userList">
-                        <div className="search__groupName" onClick={() => updateHiddenState(groupID)}>
+                        <div className="search__groupName" onClick={() => {
+                            updateHiddenState(groupID)
+                        }}>
                             {`${1 + 10 * groupID}-${(groupID + 1) * 10}`}
                         </div>
                         {isHiddenState[groupID] ? renderUsers(users) : null}
@@ -70,6 +76,15 @@ const Search: FC = () => {
             )
         ))
     }
+
+    const memoizedFilteredUsers = useMemo(
+        () => {
+            return (
+                renderGroups(filteredUsersList)
+            )},
+        [isHiddenState, searchInput],
+    );
+
 
     return (
         <div className="search" >
@@ -80,7 +95,7 @@ const Search: FC = () => {
                 filterUsers(target.innerText)
             }}/>
             <ol className="search__groups">
-                {renderGroups(filteredUsersList)}
+                {memoizedFilteredUsers}
             </ol>
         </div>
     )

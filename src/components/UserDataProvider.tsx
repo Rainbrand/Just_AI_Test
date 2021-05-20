@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import axios from "axios";
 import {IChildren, IFetch, IUser} from "../types/types";
 import { CircularProgress } from '@material-ui/core';
@@ -42,7 +42,7 @@ const UserDataProvider: FC<IChildren> = (props) => {
         getUsers()
     }, []);
 
-    
+
     return (
         <UsersContext.Provider value={markedUsers}>
             {isLoaded ? props.children : <CircularProgress className="loadSpinner"/>}
