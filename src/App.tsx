@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
+import { DragContextPovider } from './components/DragContext';
 import Favorites from './components/Favorites';
 import Search from "./components/Search";
 import {UserDataProvider} from "./components/UserDataProvider";
-import {DragContextPovider} from './DragContext';
 
 function App() {
   return (

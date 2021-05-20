@@ -3,8 +3,12 @@ import {UsersContext} from "./UserDataProvider"
 import {IUser} from "../types/types";
 import "./Search.scss"
 import HighlightedText from './HighlightedText';
-import { DragContext } from '../DragContext';
+import { DragContext } from './DragContext';
 
+/**
+ * Component returns component of grouped user list with ability to filter
+ * @constructor
+ */
 const Search: FC = () => {
     const groupedUsersList: Array<IUser[]> = useContext(UsersContext)
     const [filteredUsersList, setFilteredUsersList] = useState<Array<IUser[]>>([...groupedUsersList])
@@ -17,7 +21,9 @@ const Search: FC = () => {
         setFilteredUsersList([...groupedUsersList])
     }, [groupedUsersList]);
 
-
+    /**
+     * Function initializes array of hidden states for groups. All is false by default.
+     */
     const initIsHiddenState = () => {
         const state = new Array<boolean>()
         for (let i = 0; i < 10; i++){
@@ -26,6 +32,10 @@ const Search: FC = () => {
         return state
     }
 
+    /**
+     * Function changes hidden status of passed index.
+     * @param index
+     */
     const updateHiddenState = (index: number) => {
         setHiddenState(prev => {
             const newState = [...prev]
@@ -34,36 +44,53 @@ const Search: FC = () => {
         })
     }
 
+    /**
+     * Function handles dragStart event. Sets context of dragged card.
+     * @param e: React.DragEvent<HTMLLIElement>
+     * @param user: IUser
+     */
     const dragStartHandler = (e: React.DragEvent<HTMLLIElement>, user: IUser) => {
         setDraggedCard(() => user)
     }
 
+    /**
+     * Function filters user list by input value
+     * @param input
+     */
     const filterUsers = (input: string) => {
         if (input.length ===  0) setFilteredUsersList(JSON.parse(JSON.stringify(groupedUsersList)))
         const filteredUsers: Array<IUser[]> = []
         for (const filteredUser of groupedUsersList) {
-            filteredUsers.push(filteredUser.filter((user: IUser) => {
-                return user.name.first.includes(input) || user.name.last.includes(input)
-            }))
+            filteredUsers.push(filteredUser.filter((user: IUser) => user.name.first.includes(input)
+                || user.name.last.includes(input)
+            ))
         }
         setFilteredUsersList(filteredUsers)
     }
 
+    /**
+     * Function renders all users in group
+     * @param users
+     */
     const renderUsers = (users: IUser[]) => {
-        console.log("render users")
-
-        return (users.map(user => (
-            <li key={user.id.value} className='search__userElement' draggable onDragStart={e => dragStartHandler(e, user)}>
-                <HighlightedText text={`${user.name.first} ${user.name.last}`} highlight={searchInput}/>
-            </li>
-        )))
+        return (
+            users.map(user => (
+                <li key={user.id.value} className='search__userElement' draggable
+                    onDragStart={e => dragStartHandler(e, user)}>
+                    <HighlightedText text={`${user.name.first} ${user.name.last}`} highlight={searchInput}/>
+                </li>
+            ))
+        )
     }
 
+    /**
+     * Function renders all groups
+     * @param groupedUsers
+     */
     const renderGroups = (groupedUsers: Array<IUser[]>) => {
-        console.log("render groups")
         return (
             groupedUsers.map((users, groupID) => (
-                <li key={groupID} className={`search__group ${users.length === 0 ? 'search__group--disabled' : 'search__group--active'}`}>
+                <li key={groupID} className={`search__group ${users.length === 0 ? 'search__group--disabled' : 'search__group--enabled'}`}>
                     <ul className="search__userList">
                         <div className="search__groupName" onClick={() => {
                             updateHiddenState(groupID)

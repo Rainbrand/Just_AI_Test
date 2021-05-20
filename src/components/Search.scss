@@ -38,9 +38,16 @@
   }
 
   &__group{
-
     &Name{
       text-align: center;
+    }
+
+    &--disabled{
+      color: grey;
+      cursor: default;
+    }
+
+    &--enabled{
       cursor: pointer;
     }
   }
