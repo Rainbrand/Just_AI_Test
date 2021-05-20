@@ -9,7 +9,7 @@ const UserCard: FC<{user: IUser }> = ({user}) => {
 
     return(
         <div className="userCard">
-            <img src={user.picture.thumbnail} alt="photo"/>
+            <img src={user.picture.thumbnail} alt="photo" className="userCard__photo"/>
             <div className="userCard__info">
                 <div className="userCard__name">
                     {`${user.name.first} ${user.name.last}, registered: ${user.registered.date}`}

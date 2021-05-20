@@ -1,6 +1,8 @@
 .userCard{
   display: flex;
+  padding: 0.2rem;
   z-index: -1;
-  cursor: move;
-  cursor: drag;
+
+  &__photo{
+  }
 }

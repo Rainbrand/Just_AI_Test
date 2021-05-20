@@ -20,6 +20,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 5px;
+    border: 0.5px solid black;
+    margin: 0.2rem 0;
+    cursor: move;
+    cursor: grab;
   }
 
   &__removeButton{

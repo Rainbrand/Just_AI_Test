@@ -7,7 +7,7 @@ import { DragContext } from '../DragContext';
 
 const Search: FC = () => {
     const groupedUsersList: Array<IUser[]> = useContext(UsersContext)
-    const [filteredUsersList, setFilteredUsersList] = useState<Array<IUser[]>>(JSON.parse(JSON.stringify(groupedUsersList)))
+    const [filteredUsersList, setFilteredUsersList] = useState<Array<IUser[]>>([...groupedUsersList])
     const [isHiddenState, setHiddenState] = useState<Array<boolean>>([] as Array<boolean>);
     const [searchInput, setSearchInput] = useState("");
     const setDraggedCard: React.Dispatch<React.SetStateAction<IUser>> = useContext(DragContext).setDraggedCard;

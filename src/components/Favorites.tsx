@@ -11,14 +11,12 @@ const Favorites: FC = () => {
     const setDraggedCard: React.Dispatch<React.SetStateAction<IUser>> = useContext(DragContext).setDraggedCard;
     const draggedCard: IUser = useContext(DragContext).draggedCard;
 
-    const dragOverHandler = (e: React.DragEvent) => {
+    const dragOverHandler = (e: React.DragEvent<HTMLElement>) => {
         e.preventDefault();
-        console.log("Dragover")
     }
 
     const dragEnterHandler = (e: React.DragEvent<HTMLElement>) => {
         const target = e.target as HTMLElement
-        console.log(target)
         target.style.boxShadow = '0px 5px 0px 0px #000000'
     }
 
@@ -63,9 +61,7 @@ const Favorites: FC = () => {
         } catch (e) {
             console.error(e)
         }
-
         setDraggedCard(() => ({} as IUser))
-        console.log("Drop")
     }
 
     const removeFromFavorites = (user: IUser) => {
